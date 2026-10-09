@@ -2,6 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Pinball, BUMPERS } from '../src/physics.js';
 const idle = { left: false, right: false };
+for (const [side, positions] of [['left', [-4.15, -4, -3.9]], ['right', [3.15, 3.25, 3.4]]]) {
+  test(`balls falling along the ${side} side pass beneath the triangle and drain normally`, () => {
+    for (const x of positions) {
+      const events = [];
+      const game = new Pinball(event => events.push(event));
+      game.start(); game.launch(); game.inLane = false;
+      Object.assign(game.ball, { x, y: 6.5, vx: 0, vy: 0 });
+      let reachedFlippers = false;
+      for (let i = 0; i < 180 * 10 && !game.waiting; i++) {
+        game.step(1 / 180, idle);
+        if (game.ball.y < 3.5 && game.ball.x > -3.2 && game.ball.x < 2.45) reachedFlippers = true;
+      }
+      assert.ok(reachedFlippers, `ball starting at x=${x} should pass into the flipper area`);
+      assert.equal(game.lives, 2);
+      assert.equal(game.waiting, true);
+      assert.equal(game.state, 'playing');
+      assert.equal(events.filter(event => event === 'lost').length, 1);
+    }
+  });
+}
 test('starts with three lives, zero score, and a ball ready to launch', () => {
   const game = new Pinball(); game.start();
   assert.equal(game.lives, 3); assert.equal(game.score, 0); assert.equal(game.waiting, true);
