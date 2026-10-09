@@ -44,6 +44,20 @@ npm run preview
 
 Deploy the generated `dist/` directory to any static web host. Three.js is bundled locally; Google Fonts are optional and fall back to system fonts if unavailable.
 
+## CI/CD
+
+The GitHub Actions workflow in `.github/workflows/ci-cd.yml` runs on every branch push, pull requests targeting `main`, and manual runs. It uses Node.js 22, installs locked dependencies with `npm ci`, runs the physics tests, and builds the game. Failed tests or builds block deployment.
+
+Successful pushes to `main` automatically deploy the tested build to GitHub Pages. Manual runs also deploy when `main` is selected. Other branches and pull requests only run checks. The Pages build uses relative asset URLs (`npm run build -- --base=./`) so the game works under the repository's `/pinball-game/` path and on a custom domain.
+
+To enable deployment:
+
+1. In the GitHub repository, open **Settings → Pages** and choose **GitHub Actions** as the build and deployment source.
+2. Merge the workflow into `main`. The push starts the first deployment; later deployments run automatically after successful checks.
+3. Find the published URL in the **Deploy to GitHub Pages** job or **Settings → Pages**. With the default domain, it is `https://jensonchoi.github.io/pinball-game/`.
+
+No additional deployment secrets are needed: the deployment job uses GitHub's built-in token with Pages and OpenID Connect permissions. To require passing CI before merging, configure a branch protection rule or ruleset for `main` that requires the **Test and build** check.
+
 ## Tests
 
 ```sh
