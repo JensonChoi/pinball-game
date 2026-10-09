@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import './style.css';
+import { createPersonalBest } from './personal-best.js';
 import { Pinball, BUMPERS, WALLS, flipper } from './physics.js';
 
 const $ = id => document.getElementById(id);
 const format = value => String(value).padStart(6, '0');
-let best = 0;
-try { best = Math.max(0, Number(sessionStorage.getItem('after-hours-best')) || 0); } catch { /* Storage may be disabled. The in-memory record still works. */ }
+const personalBest = createPersonalBest();
+let best = personalBest.score;
 let soundEnabled = false, audio, charging = false, chargeStart = 0, previousBest = best;
 const inputs = { left: false, right: false };
 const flashes = [0, 0, 0];
@@ -26,8 +27,8 @@ const game = new Pinball((event, index) => {
   if (event === 'launch') beep(220, .2);
   if (event === 'flip') beep(130, .05);
   if (event === 'lost') { beep(100, .3); $('status').textContent = 'BALL LOST · HOLD SPACE TO LAUNCH'; }
-  if (game.score > best) { best = game.score; try { sessionStorage.setItem('after-hours-best', String(best)); } catch { /* Keep the in-memory best. */ } }
-  if (event === 'over') { clearInputs(); showOverlay('LAST CALL', 'Game over.', `Final score: ${format(game.score)}${game.score > previousBest ? '\nA new session best. Nicely played.' : '\nThere’s always one more game.'}`, 'PLAY AGAIN'); beep(80, .5); $('status').textContent = 'THAT’S A WRAP · PLAY AGAIN?'; }
+  best = personalBest.record(game.score);
+  if (event === 'over') { clearInputs(); showOverlay('LAST CALL', 'Game over.', `Final score: ${format(game.score)}${game.score > previousBest ? '\nA new personal best. Nicely played.' : '\nThere’s always one more game.'}`, 'PLAY AGAIN'); beep(80, .5); $('status').textContent = 'THAT’S A WRAP · PLAY AGAIN?'; }
   if (event === 'start' || event === 'ready') $('status').textContent = 'HOLD SPACE TO LAUNCH';
   if (event === 'launch') $('status').textContent = 'KEEP THE NIGHT ALIVE';
   updateScore();
