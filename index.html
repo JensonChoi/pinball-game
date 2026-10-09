@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10120f" />
+    <meta name="description" content="An after-hours arcade. A three-dimensional pinball game with three balls and one more chance at a high score." />
+    <title>After Hours — Pinball Club</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar"><a class="brand" href="./" aria-label="After Hours home"><span class="brand-icon">✳</span> AFTER HOURS<span class="brand-sub">PINBALL CLUB</span></a><div class="header-right"><span class="live-dot"></span><span>THE ARCADE IS OPEN</span><button id="sound" class="icon-button" aria-label="Enable sound" aria-pressed="false">SOUND OFF</button></div></header>
+      <main>
+        <section class="intro" id="intro">
+          <div class="eyebrow"><span></span> NO COINS. JUST GOOD TIMES.</div>
+          <h1>One more<br>ball<span class="lime">.</span></h1>
+          <p class="intro-copy">A little focus. A little reflex.<br>A whole lot of <em>“one more game.”</em></p>
+          <button id="start" class="primary">LET’S PLAY <span>↗</span></button>
+          <div class="game-meta"><span>3 BALLS</span><span>∞ POSSIBILITIES</span><span>YOUR NEW OBSESSION</span></div>
+          <div class="best-card"><span class="trophy">♜</span><div><span class="eyebrow">SESSION BEST</span><strong id="home-best">000000</strong></div><span class="best-note">Make your<br>mark.</span></div>
+          <div class="instructions"><h2>QUICK HANDS. SIMPLE RULES.</h2><div><span class="key">←</span><span class="key">→</span><p>Work the flippers</p></div><div><span class="key wide">SPACE</span><p>Hold & release to launch</p></div><div><span class="key">P</span><p>Take a breather</p></div><p class="touch-note">On mobile? Use the on-screen controls.</p></div>
+        </section>
+        <section class="game-side" aria-label="Pinball table">
+          <div class="table-top"><div><span class="small-cross">✳</span> THE NIGHT SHIFT <span class="edition">TABLE 001</span></div><span class="table-tag">ORIGINAL EDITION</span></div>
+          <div class="machine" id="machine">
+            <div class="scoreboard"><div><span>SCORE</span><strong id="score">000000</strong></div><div class="ball-status"><span>BALLS LEFT</span><div id="lives" aria-label="3 balls remaining"><i></i><i></i><i></i></div></div><div class="record"><span>SESSION BEST</span><strong id="best">000000</strong></div></div>
+            <div id="canvas-wrap"><div id="table-caption"><span>AFTER</span><span>HOURS<span class="caption-star">✳</span></span><small>KEEP THE NIGHT ALIVE</small></div><div id="canvas"></div><div class="table-bottom-label">GOOD THINGS COME TO THOSE WHO PLAY.</div><div id="loading">SETTING THE TABLE…</div><div id="overlay" class="overlay" hidden><div class="overlay-card"><span class="eyebrow" id="overlay-label">TAKE A BREATHER</span><h2 id="overlay-title">On pause.</h2><p id="overlay-copy">The night can wait.</p><button class="primary" id="overlay-action">KEEP PLAYING <span>↗</span></button><button class="text-button" id="home">BACK TO THE CLUB</button></div></div></div>
+            <div class="machine-foot"><span><i class="live-dot"></i> <span id="status" role="status">READY WHEN YOU ARE</span></span><span>EST. AFTER DARK ↗</span></div>
+          </div>
+          <div class="under-table"><span>HIT THE BUMPERS. CHASE THE GLOW.</span><span>✦ &nbsp; MAKE IT COUNT.</span></div>
+          <div class="controls" id="controls" hidden><button id="left-control" aria-label="Left flipper">← <span>LEFT FLIPPER</span></button><button id="launch-control">HOLD TO LAUNCH</button><button id="right-control" aria-label="Right flipper"><span>RIGHT FLIPPER</span> →</button></div>
+          <div class="game-actions" id="game-actions" hidden><button id="pause" class="text-button">Ⅱ PAUSE</button><span>3 BALLS. HOW FAR CAN YOU GO?</span><button id="quit" class="text-button">↙ HOME</button></div>
+        </section>
+      </main>
+      <footer><span>A SMALL ESCAPE FROM THE EVERYDAY.</span><span>BUILT FOR THE LOVE OF THE GAME <span class="lime">✳</span></span></footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
