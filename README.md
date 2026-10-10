@@ -1,8 +1,8 @@
 # After Hours — Pinball Club
 
-A browser-based pinball game built with HTML, CSS, JavaScript, and Three.js. Includes a home screen, a 3D-rendered table, keyboard and touch controls, optional synthesized sound, pause/resume, and a session high score.
+A browser-based pinball game built with HTML, CSS, JavaScript, and Three.js. Includes a home screen, a 3D-rendered table, keyboard and touch controls, optional synthesized sound, pause/resume, and a persistent personal best score.
 
-![After Hours home page with the play button, session high score, and illuminated pinball table](docs/images/homepage.png)
+![After Hours home page with the play button, personal best score, and illuminated pinball table](docs/images/homepage.png)
 
 ## Run locally
 
@@ -33,7 +33,7 @@ Open the local URL printed by Vite (normally **http://localhost:5173**). Click *
 
 Charge the plunger for up to one second to increase launch power. Each bumper hit earns **100 points**. Each game starts with **three balls**; a ball draining off the bottom costs one life. After the third lost ball, the game ends and shows your final score. Select **PLAY AGAIN** to start a fresh game.
 
-The session best is stored in `sessionStorage`: it survives restarts and refreshes in the same browser tab, and normally resets when that tab is closed. If browser storage is unavailable, the record still works until the page is refreshed. The game automatically pauses when you switch tabs or windows. Returning home ends the current game.
+The personal best is stored in `localStorage`: it survives game restarts, refreshes, and closing and reopening the tab or browser. It is specific to this website and browser profile, does not sync across devices, and resets when you clear the site’s stored data. Private browsing generally clears it when the private session ends. Any existing session best in the current tab is preserved when switching to local storage. If browser storage is unavailable, the record still works until the page is refreshed. The game automatically pauses when you switch tabs or windows. Returning home ends the current game.
 
 ## Production build
 
@@ -64,12 +64,14 @@ No additional deployment secrets are needed: the deployment job uses GitHub's bu
 npm test
 ```
 
-Tests cover ball launching, bumper scoring, pause behavior, and the complete three-life game-over cycle. The physics uses a fixed timestep with circle/segment collision detection, independent of rendering.
+Tests cover ball launching, bumper scoring, pause behavior, the complete three-life game-over cycle, and personal best persistence, migration, and storage failures. The physics uses a fixed timestep with circle/segment collision detection, independent of rendering.
 
 ## Files
 
 - `index.html` — home page and game interface
 - `src/style.css` — responsive arcade styling
-- `src/main.js` — Three.js table, input, audio, and session record
+- `src/main.js` — Three.js table, input, audio, and personal best record
+- `src/personal-best.js` — persistent score storage and session migration
 - `src/physics.js` — ball simulation and game rules
 - `test/physics.test.js` — game-rule regression tests
+- `test/personal-best.test.js` — score persistence regression tests
